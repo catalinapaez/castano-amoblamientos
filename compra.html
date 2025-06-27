@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finalizar Compra - Castaño Amoblamientos</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="index.html"><img src="img/logo-amoblamiento-blanco-300x102.png" alt="Logo Castaño Amoblamientos" /></a>
+    </div>
+    <nav>
+      <ul class="nav-list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="compra.html">Comprar</a></li>
+        <li><a href="historial.html">Mis pedidos</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <div class="compra-container">
+    <h1>Finalizar Compra</h1>
+    
+    <form id="form-compra" class="compra-form">
+
+      <div class="paso" id="paso-1">
+        <label for="producto">Producto</label>
+        <select id="producto" required>
+          <option value="">Seleccionar</option>
+          <option value="Mesa Comedor">Mesa Comedor</option>
+          <option value="Mesa de Café">Mesa de Café</option>
+          <option value="Mesa de Luz">Mesa de Luz</option>
+          <option value="Rack de TV">Rack de TV</option>
+        </select>
+
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono" placeholder="Tu número de contacto" required>
+
+        <label for="direccion">Dirección</label>
+        <textarea id="direccion" rows="3" placeholder="Tu dirección de entrega" required></textarea>
+
+        <div class="botones">
+          <button type="button" class="btn-compra" onclick="cambiarPaso(1)">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="paso" id="paso-2" style="display: none;">
+        <label for="metodo-pago">Método de pago</label>
+        <select id="metodo-pago" onchange="mostrarTarjeta()" required>
+          <option value="">Seleccionar</option>
+          <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+          <option value="Tarjeta de débito">Tarjeta de débito</option>
+          <option value="Transferencia bancaria">Transferencia bancaria</option>
+          <option value="Mercado Pago">Mercado Pago</option>
+          <option value="Efectivo al recibir">Efectivo al recibir</option>
+        </select>
+
+        <div id="datos-tarjeta" style="display: none;">
+          <label for="numero-tarjeta">Número de tarjeta</label>
+          <input type="text" id="numero-tarjeta" placeholder="0000 0000 0000 0000">
+
+          <label for="vencimiento">Fecha de vencimiento</label>
+          <input type="text" id="vencimiento" placeholder="MM/AA">
+
+          <label for="cvv">Código de seguridad (CVV)</label>
+          <input type="text" id="cvv" placeholder="123">
+        </div>
+
+        <label for="comentarios">Comentarios adicionales</label>
+        <textarea id="comentarios" rows="3" placeholder="Especificaciones o detalles extra (opcional)"></textarea>
+
+        <div class="botones">
+          <button type="button" class="btn-compra" onclick="cambiarPaso(-1)">Atrás</button>
+          <button type="button" class="btn-compra" onclick="cambiarPaso(1)">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="paso" id="paso-3" style="display: none;">
+        <h2>Confirmación</h2>
+        <p>Revisá tus datos antes de confirmar la compra.</p>
+
+        <ul class="resumen">
+          <li><strong>Producto:</strong> <span id="resumen-producto"></span></li>
+          <li><strong>Nombre:</strong> <span id="resumen-nombre"></span></li>
+          <li><strong>Email:</strong> <span id="resumen-email"></span></li>
+          <li><strong>Teléfono:</strong> <span id="resumen-telefono"></span></li>
+          <li><strong>Dirección:</strong> <span id="resumen-direccion"></span></li>
+          <li><strong>Método de pago:</strong> <span id="resumen-pago"></span></li>
+          <li><strong>Comentarios:</strong> <span id="resumen-comentarios"></span></li>
+        </ul>
+
+        <div class="botones">
+          <button type="button" class="btn-compra" onclick="cambiarPaso(-1)">Atrás</button>
+          <button type="button" class="btn-compra" onclick="confirmarCompra()">Confirmar Compra</button>
+        </div>
+      </div>
+
+      <div class="paso" id="paso-4" style="display: none; text-align: center;">
+        <h2>¡Gracias por tu compra!</h2>
+        <p>Tu pedido fue recibido correctamente. Nos pondremos en contacto contigo para coordinar la entrega.</p>
+        <a href="index.html" class="btn-compra">Volver al inicio</a>
+      </div>
+
+    </form>
+  </div>
+
+  <footer>
+    © 2025 Castaño Amoblamientos. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    let pasoActual = 1;
+
+    function cambiarPaso(direccion) {
+      if (direccion === 1 && !validarPaso(pasoActual)) return;
+
+      document.getElementById(`paso-${pasoActual}`).style.display = "none";
+      pasoActual += direccion;
+      document.getElementById(`paso-${pasoActual}`).style.display = "block";
+
+      if (pasoActual === 3) {
+        document.getElementById("resumen-producto").textContent = document.getElementById("producto").value;
+        document.getElementById("resumen-nombre").textContent = document.getElementById("nombre").value;
+        document.getElementById("resumen-email").textContent = document.getElementById("email").value;
+        document.getElementById("resumen-telefono").textContent = document.getElementById("telefono").value;
+        document.getElementById("resumen-direccion").textContent = document.getElementById("direccion").value;
+        document.getElementById("resumen-pago").textContent = document.getElementById("metodo-pago").value;
+        document.getElementById("resumen-comentarios").textContent = document.getElementById("comentarios").value || "Sin comentarios.";
+      }
+    }
+
+    function confirmarCompra() {
+      document.getElementById("paso-3").style.display = "none";
+      pasoActual = 4;
+      document.getElementById("paso-4").style.display = "block";
+    }
+
+    function mostrarTarjeta() {
+      const metodo = document.getElementById("metodo-pago").value;
+      const datos = document.getElementById("datos-tarjeta");
+      datos.style.display = (metodo.includes("Tarjeta")) ? "block" : "none";
+    }
+
+    function validarPaso(paso) {
+      if (paso === 1) {
+        if (!document.getElementById("producto").value.trim() ||
+            !document.getElementById("nombre").value.trim() ||
+            !document.getElementById("email").value.trim() ||
+            !document.getElementById("telefono").value.trim() ||
+            !document.getElementById("direccion").value.trim()) {
+          alert("Por favor completá todos los campos obligatorios del paso 1.");
+          return false;
+        }
+      }
+
+      if (paso === 2) {
+        const metodo = document.getElementById("metodo-pago").value;
+        if (!metodo) {
+          alert("Por favor seleccioná un método de pago.");
+          return false;
+        }
+        if (metodo.includes("Tarjeta")) {
+          if (!document.getElementById("numero-tarjeta").value.trim() ||
+              !document.getElementById("vencimiento").value.trim() ||
+              !document.getElementById("cvv").value.trim()) {
+            alert("Por favor completá los datos de la tarjeta.");
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+  </script>
+
+</body>
+</html>
