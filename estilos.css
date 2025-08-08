@@ -433,17 +433,16 @@ footer {
   }
 }
 
-@media (min-width: 601px) and (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .nav-container {
-    flex-direction: column;
+    padding: 0 40px;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
   }
 
   .nav-list {
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
-    margin-top: 10px;
   }
 
   .slider {
@@ -464,18 +463,17 @@ footer {
 
   .contacto-grid {
     grid-template-columns: 1fr;
-    gap: 50px;
+    gap: 60px;
   }
 
   .botones {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: row;
+    gap: 30px;
   }
 
   .compra-container,
   .historial-container {
-    margin: 50px 30px;
+    margin: 40px 40px;
     padding: 30px;
   }
 }
